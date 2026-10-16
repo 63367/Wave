@@ -1,113 +1,139 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connexion</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Simulation — parcours de connexion</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, 'Segoe UI', sans-serif; }
-  body {
-    background: linear-gradient(160deg, #1a9cf0 0%, #4facfe 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  .card {
-    background: #fff;
-    width: 100%;
-    max-width: 380px;
-    border-radius: 20px;
-    padding: 40px 30px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-    text-align: center;
-  }
-  .logo {
-    width: 70px; height: 70px;
-    border-radius: 50%;
-    background: #1a9cf0;
-    color: #fff;
-    font-size: 34px; font-weight: bold;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 15px;
-  }
-  h1 { color: #1a3a5c; font-size: 22px; margin-bottom: 5px; }
-  p.sous { color: #7a8ba0; font-size: 14px; margin-bottom: 30px; }
-  .champ {
-    text-align: left;
-    margin-bottom: 18px;
-  }
-  label { display: block; font-size: 13px; color: #1a3a5c; margin-bottom: 6px; font-weight: 600; }
-  input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 2px solid #e1e8f0;
-    border-radius: 12px;
-    font-size: 16px;
-    outline: none;
-    transition: border 0.2s;
-  }
-  input:focus { border-color: #1a9cf0; }
-  button {
-    width: 100%;
-    padding: 15px;
-    background: #1a9cf0;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.2s;
-  }
-  button:hover { background: #1478b8; }
-  .lien { margin-top: 20px; font-size: 13px; color: #1a9cf0; text-decoration: none; display: inline-block; }
-  #message { margin-top: 15px; font-size: 14px; font-weight: bold; min-height: 20px; }
-  .ok { color: #16a34a; }
-  .ko { color: #dc2626; }
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;color:#111;background:#fff}
+.screen{min-height:100vh;display:none;padding:34px 36px 24px;position:relative}
+.screen.active{display:flex;flex-direction:column}
+.top{font-size:30px;margin-bottom:70px}
+.back{font-size:42px;line-height:1;margin-bottom:70px;cursor:pointer}
+h1{font-size:31px;line-height:1.25;font-weight:400;margin:0 0 72px}
+.field{border-bottom:4px solid #18b7ee;height:60px;display:flex;align-items:center;font-size:27px;margin-bottom:300px}
+.country{display:flex;gap:10px;align-items:center;margin-right:14px}
+.flag{font-size:30px}
+input{border:0;outline:0;font-size:27px;width:100%;font-family:inherit}
+input::placeholder{color:#aaa}
+button{border:0;border-radius:40px;background:#9ee2f8;color:#fff;font-size:24px;padding:20px;width:100%;font-weight:600;cursor:pointer}
+button:disabled{opacity:.65;cursor:default}
+.lock{font-size:74px;text-align:center;margin:10px 0 45px;color:#3432b7}
+.center{text-align:center}
+.pin-title{font-size:31px;line-height:1.25;margin:0 0 85px;font-weight:400}
+.dots{display:flex;justify-content:center;gap:48px;margin-bottom:110px}
+.dot{width:20px;height:20px;border-radius:50%;background:#9ee2f8}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:45px 70px;margin-top:auto;padding-bottom:25px}
+.key{font-size:46px;text-align:center;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.key.spacer{cursor:default}
+.link{display:block;text-align:center;color:#16baf1;font-size:23px;margin-top:55px;cursor:pointer}
+.otp-title{text-align:center;font-size:25px;line-height:1.35;margin:0 0 80px}
+.otp-title strong{font-size:27px}
+.otp{display:flex;justify-content:center;gap:18px;margin-bottom:100px}
+.otp input{width:85px;text-align:center;border-bottom:2px solid #ccc;font-size:42px}
+.demo{position:fixed;top:0;left:0;right:0;background:#fff3cd;color:#664d03;text-align:center;padding:8px;font-size:12px;z-index:99}
+@media(max-width:500px){.screen{padding-left:28px;padding-right:28px}h1{font-size:27px}.field,input{font-size:24px}.pad{gap:35px 30px}.key{font-size:40px}}
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="logo">W</div>
-  <h1>Connexion</h1>
-  <p class="sous">Entrez vos informations pour continuer</p>
+<div class="demo">SIMULATION UNIQUEMENT — aucune donnée réelle n'est envoyée ni enregistrée.</div>
 
-  <form onsubmit="return verifier(event)">
-    <div class="champ">
-      <label>Numéro de téléphone</label>
-      <input type="tel" id="tel" placeholder="+225 07 00 00 00 00" required>
-    </div>
-    <div class="champ">
-      <label>Code PIN</label>
-      <input type="password" id="pin" placeholder="••••" maxlength="4" inputmode="numeric" required>
-    </div>
-    <button type="submit">Se connecter</button>
-  </form>
+<section id="s1" class="screen active">
+  <div class="top">08:10 ◐</div>
+  <h1>Bienvenue dans la simulation ! Pour commencer, entrez un numéro de démonstration</h1>
+  <div class="field">
+    <div class="country"><span class="flag">🇨🇮</span><span>+225⌄</span></div>
+    <input id="phone" inputmode="numeric" maxlength="10" placeholder="0x xx xx xx xx" autocomplete="off">
+  </div>
+  <button id="next1" type="button" disabled>Suivant</button>
+</section>
 
-  <div id="message"></div>
-  <a class="lien" href="#">Mot de passe oublié ?</a>
-</div>
+<section id="s2" class="screen">
+  <div class="back" id="back2">‹</div>
+  <div class="lock">🔒</div>
+  <div class="pin-title">Entrez votre <b>code secret de démonstration</b><br>pour le compte <b id="accountNumber">00 00 00 00 00</b></div>
+  <div class="dots" id="dots"></div>
+  <div class="pad" id="pinpad"></div>
+  <span class="link" id="link2">Retour</span>
+</section>
+
+<section id="s3" class="screen">
+  <div class="back" id="back3">‹</div>
+  <div class="center" style="font-size:60px;margin:10px 0 45px">💬</div>
+  <div class="otp-title">Entrez le <b>code de démonstration</b><br>envoyé au numéro fictif</div>
+  <div class="otp">
+    <input maxlength="1" inputmode="numeric" class="o" autocomplete="off">
+    <input maxlength="1" inputmode="numeric" class="o" autocomplete="off">
+    <input maxlength="1" inputmode="numeric" class="o" autocomplete="off">
+    <input maxlength="1" inputmode="numeric" class="o" autocomplete="off">
+  </div>
+  <button id="finish" type="button">Terminer la simulation</button>
+</section>
 
 <script>
-// Démonstration uniquement : aucune donnée n'est envoyée nulle part
-function verifier(e) {
-  e.preventDefault();
-  const msg = document.getElementById('message');
-  const tel = document.getElementById('tel').value.trim();
-  const pin = document.getElementById('pin').value;
+(function () {
+  const s1 = document.getElementById('s1');
+  const s2 = document.getElementById('s2');
+  const s3 = document.getElementById('s3');
+  const screens = { 1: s1, 2: s2, 3: s3 };
 
-  if (tel.length >= 8 && pin.length === 4) {
-    msg.textContent = "✅ Formulaire valide (démo : rien n'est envoyé)";
-    msg.className = "ok";
-  } else {
-    msg.textContent = "❌ Vérifiez le numéro (8+ chiffres) et le PIN (4 chiffres)";
-    msg.className = "ko";
+  function show(n) {
+    [s1, s2, s3].forEach(function (el) { el.classList.remove('active'); });
+    if (screens[n]) screens[n].classList.add('active');
+    window.scrollTo(0, 0);
   }
-  return false;
-}
-</script>
-</body>
-</html>
+
+  /* ---------- Écran 1 : numéro ---------- */
+  const phone = document.getElementById('phone');
+  const next1 = document.getElementById('next1');
+
+  function majBouton() {
+    const chiffres = phone.value.replace(/\D/g, '');
+    next1.disabled = chiffres.length < 4;   // s'active dès 4 chiffres
+  }
+  ['input', 'keyup', 'change', 'paste'].forEach(function (ev) {
+    phone.addEventListener(ev, function () { setTimeout(majBouton, 0); });
+  });
+  phone.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !next1.disabled) next1.click();
+  });
+  majBouton();
+
+  next1.addEventListener('click', function () {
+    const chiffres = phone.value.replace(/\D/g, '').slice(0, 10);
+    const formate = chiffres.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
+    document.getElementById('accountNumber').textContent = formate || '00 00 00 00 00';
+    pin = '';
+    renderDots();
+    show(2);
+  });
+
+  /* ---------- Écran 2 : code PIN ---------- */
+  let pin = '';
+  const dots = document.getElementById('dots');
+  const pinpad = document.getElementById('pinpad');
+
+  function renderDots() {
+    dots.innerHTML = '';
+    for (let i = 0; i < 4; i++) {
+      const d = document.createElement('span');
+      d.className = 'dot';
+      d.style.opacity = i < pin.length ? '1' : '.45';
+      dots.appendChild(d);
+    }
+  }
+
+  function pressKey(n) {
+    if (pin.length >= 4) return;
+    pin += n;
+    renderDots();
+    if (pin.length === 4) setTimeout(function () { show(3); effacerOtp(); }, 250);
+  }
+
+  pinpad.innerHTML = '';
+  for (let n = 1; n <= 9; n++) {
+    const k = document.createElement('div');
+    k.className = 'key';
+    k.textContent = n;
+    k.addEventListener
