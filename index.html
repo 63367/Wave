@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connexion</title>
+<title>Wave - Connexion</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
 
@@ -31,10 +31,21 @@
     border-radius: 50%;
     background: linear-gradient(135deg, #1dc8f0, #0aa8d6);
     display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 32px; font-weight: bold;
+    font-size: 38px;
+    box-shadow: 0 6px 18px rgba(29, 200, 240, .4);
   }
 
-  h1 { font-size: 22px; color: #123; margin-bottom: 6px; }
+  .brand {
+    font-size: 30px;
+    font-weight: 900;
+    color: #1dc8f0;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .brand .penguin { font-size: 24px; }
+
+  h1 { font-size: 20px; color: #123; margin-bottom: 6px; }
   p.sub { color: #7a8fa0; font-size: 14px; margin-bottom: 28px; }
 
   .steps { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
@@ -92,11 +103,17 @@
 
   .resend { font-size: 13px; color: #7a8fa0; margin-bottom: 20px; }
   .resend a { color: #0aa8d6; font-weight: 600; text-decoration: none; cursor: pointer; }
+
+  .footer-penguins { margin-top: 20px; font-size: 22px; letter-spacing: 6px; }
 </style>
 </head>
 <body>
   <div class="card">
-    <div class="logo">W</div>
+    <div class="logo">🐧</div>
+    <div class="brand">
+      <span class="penguin">🐧</span> Wave <span class="penguin">🐧</span>
+    </div>
+    <p class="sub">L'argent mobile, simple comme un pingouin glisse sur la glace</p>
 
     <div class="steps">
       <div class="step active" id="s1"></div>
@@ -106,7 +123,7 @@
 
     <!-- ÉTAPE 1 : Numéro de téléphone -->
     <div class="screen visible" id="screen1">
-      <h1>Bienvenue</h1>
+      <h1>Bienvenue 🐧</h1>
       <p class="sub">Entre ton numéro de téléphone</p>
       <div class="field">
         <label for="tel">Numéro de téléphone</label>
@@ -117,7 +134,7 @@
 
     <!-- ÉTAPE 2 : Code PIN -->
     <div class="screen" id="screen2">
-      <h1>Code secret</h1>
+      <h1>Code secret 🐧</h1>
       <p class="sub">Entre ton code PIN</p>
       <div class="field">
         <input type="password" id="pin" placeholder="••••" maxlength="4" inputmode="numeric">
@@ -128,7 +145,7 @@
 
     <!-- ÉTAPE 3 : Code de vérification -->
     <div class="screen" id="screen3">
-      <h1>Vérification</h1>
+      <h1>Vérification 🐧</h1>
       <p class="sub">Entre le code à 4 chiffres envoyé par SMS</p>
       <div class="code-inputs">
         <input type="text" maxlength="1" inputmode="numeric" oninput="moveNext(this)">
@@ -136,10 +153,12 @@
         <input type="text" maxlength="1" inputmode="numeric" oninput="moveNext(this)">
         <input type="text" maxlength="1" inputmode="numeric">
       </div>
-      <p class="resend">Tu n'as rien reçu ? <a onclick="alert('Démo : nouveau code envoyé !')">Renvoyer le code</a></p>
+      <p class="resend">Tu n'as rien reçu ? <a onclick="alert('Démo : nouveau code envoyé ! 🐧')">Renvoyer le code</a></p>
       <button class="btn" onclick="finish()">Se connecter</button>
       <button class="back" onclick="goStep(2)">← Retour</button>
     </div>
+
+    <div class="footer-penguins">🐧 🐧 🐧</div>
   </div>
 
 <script>
@@ -160,7 +179,7 @@
   }
 
   function finish() {
-    alert('Démo : connexion validée ! Connecte ça à ton backend. 😉');
+    alert('Démo : connexion validée ! 🐧 Connecte ça à ton backend.');
   }
 </script>
 </body>
