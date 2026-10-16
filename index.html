@@ -12,26 +12,26 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Aria
 .top{font-size:30px;margin-bottom:70px}
 .back{font-size:42px;line-height:1;margin-bottom:70px;cursor:pointer}
 h1{font-size:31px;line-height:1.25;font-weight:400;margin:0 0 72px}
-.field{border-bottom:4px solid #18b7ee;height:60px;display:flex;align-items:center;font-size:27px;margin-bottom:300px}
+.field{border-bottom:4px solid #18b7ee;height:60px;display:flex;align-items:center;font-size:27px;margin-bottom:120px}
 .country{display:flex;gap:10px;align-items:center;margin-right:14px}
 .flag{font-size:30px}
 input{border:0;outline:0;font-size:27px;width:100%;font-family:inherit}
 input::placeholder{color:#aaa}
-button{border:0;border-radius:40px;background:#9ee2f8;color:#fff;font-size:24px;padding:20px;width:100%;font-weight:600;cursor:pointer}
-button:disabled{opacity:.65;cursor:default}
+button{border:0;border-radius:40px;background:#18b7ee;color:#fff;font-size:24px;padding:20px;width:100%;font-weight:600;cursor:pointer}
+button:active{opacity:.8}
 .lock{font-size:74px;text-align:center;margin:10px 0 45px;color:#3432b7}
 .center{text-align:center}
-.pin-title{font-size:31px;line-height:1.25;margin:0 0 85px;font-weight:400}
-.dots{display:flex;justify-content:center;gap:48px;margin-bottom:110px}
-.dot{width:20px;height:20px;border-radius:50%;background:#9ee2f8}
-.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:45px 70px;margin-top:auto;padding-bottom:25px}
+.pin-title{font-size:31px;line-height:1.25;margin:0 0 60px;font-weight:400}
+.dots{display:flex;justify-content:center;gap:48px;margin-bottom:80px}
+.dot{width:20px;height:20px;border-radius:50%;background:#18b7ee}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 70px;margin-top:auto;padding-bottom:25px}
 .key{font-size:46px;text-align:center;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
 .key.spacer{cursor:default}
-.link{display:block;text-align:center;color:#16baf1;font-size:23px;margin-top:55px;cursor:pointer}
+.link{display:block;text-align:center;color:#16baf1;font-size:23px;margin-top:40px;cursor:pointer}
 .otp-title{text-align:center;font-size:25px;line-height:1.35;margin:0 0 80px}
 .otp-title strong{font-size:27px}
-.otp{display:flex;justify-content:center;gap:18px;margin-bottom:100px}
-.otp input{width:85px;text-align:center;border-bottom:2px solid #ccc;font-size:42px}
+.otp{display:flex;justify-content:center;gap:18px;margin-bottom:80px}
+.otp input{width:70px;text-align:center;border-bottom:2px solid #ccc;font-size:42px}
 .demo{position:fixed;top:0;left:0;right:0;background:#fff3cd;color:#664d03;text-align:center;padding:8px;font-size:12px;z-index:99}
 @media(max-width:500px){.screen{padding-left:28px;padding-right:28px}h1{font-size:27px}.field,input{font-size:24px}.pad{gap:35px 30px}.key{font-size:40px}}
 </style>
@@ -39,6 +39,7 @@ button:disabled{opacity:.65;cursor:default}
 <body>
 <div class="demo">SIMULATION UNIQUEMENT — aucune donnée réelle n'est envoyée ni enregistrée.</div>
 
+<!-- Écran 1 : numéro -->
 <section id="s1" class="screen active">
   <div class="top">08:10 ◐</div>
   <h1>Bienvenue dans la simulation ! Pour commencer, entrez un numéro de démonstration</h1>
@@ -46,9 +47,10 @@ button:disabled{opacity:.65;cursor:default}
     <div class="country"><span class="flag">🇨🇮</span><span>+225⌄</span></div>
     <input id="phone" inputmode="numeric" maxlength="10" placeholder="0x xx xx xx xx" autocomplete="off">
   </div>
-  <button id="next1" type="button" disabled>Suivant</button>
+  <button id="next1" type="button">Suivant</button>
 </section>
 
+<!-- Écran 2 : code PIN -->
 <section id="s2" class="screen">
   <div class="back" id="back2">‹</div>
   <div class="lock">🔒</div>
@@ -58,6 +60,7 @@ button:disabled{opacity:.65;cursor:default}
   <span class="link" id="link2">Retour</span>
 </section>
 
+<!-- Écran 3 : code OTP -->
 <section id="s3" class="screen">
   <div class="back" id="back3">‹</div>
   <div class="center" style="font-size:60px;margin:10px 0 45px">💬</div>
@@ -73,67 +76,68 @@ button:disabled{opacity:.65;cursor:default}
 
 <script>
 (function () {
-  const s1 = document.getElementById('s1');
-  const s2 = document.getElementById('s2');
-  const s3 = document.getElementById('s3');
-  const screens = { 1: s1, 2: s2, 3: s3 };
+  var s1 = document.getElementById('s1');
+  var s2 = document.getElementById('s2');
+  var s3 = document.getElementById('s3');
 
   function show(n) {
-    [s1, s2, s3].forEach(function (el) { el.classList.remove('active'); });
-    if (screens[n]) screens[n].classList.add('active');
+    s1.classList.remove('active');
+    s2.classList.remove('active');
+    s3.classList.remove('active');
+    if (n === 1) s1.classList.add('active');
+    if (n === 2) s2.classList.add('active');
+    if (n === 3) s3.classList.add('active');
     window.scrollTo(0, 0);
   }
 
-  /* ---------- Écran 1 : numéro ---------- */
-  const phone = document.getElementById('phone');
-  const next1 = document.getElementById('next1');
-
-  function majBouton() {
-    const chiffres = phone.value.replace(/\D/g, '');
-    next1.disabled = chiffres.length < 4;   // s'active dès 4 chiffres
-  }
-  ['input', 'keyup', 'change', 'paste'].forEach(function (ev) {
-    phone.addEventListener(ev, function () { setTimeout(majBouton, 0); });
-  });
-  phone.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && !next1.disabled) next1.click();
-  });
-  majBouton();
+  /* ---------- Écran 1 ---------- */
+  var phone = document.getElementById('phone');
+  var next1 = document.getElementById('next1');
 
   next1.addEventListener('click', function () {
-    const chiffres = phone.value.replace(/\D/g, '').slice(0, 10);
-    const formate = chiffres.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
+    var chiffres = phone.value.replace(/\D/g, '').slice(0, 10);
+    var formate = chiffres.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
     document.getElementById('accountNumber').textContent = formate || '00 00 00 00 00';
-    pin = '';
-    renderDots();
+    resetPin();
     show(2);
   });
 
-  /* ---------- Écran 2 : code PIN ---------- */
-  let pin = '';
-  const dots = document.getElementById('dots');
-  const pinpad = document.getElementById('pinpad');
+  /* ---------- Écran 2 : PIN ---------- */
+  var pin = '';
+  var dots = document.getElementById('dots');
+  var pinpad = document.getElementById('pinpad');
 
   function renderDots() {
     dots.innerHTML = '';
-    for (let i = 0; i < 4; i++) {
-      const d = document.createElement('span');
+    for (var i = 0; i < 4; i++) {
+      var d = document.createElement('span');
       d.className = 'dot';
       d.style.opacity = i < pin.length ? '1' : '.45';
       dots.appendChild(d);
     }
   }
+  function resetPin() { pin = ''; renderDots(); }
 
   function pressKey(n) {
     if (pin.length >= 4) return;
     pin += n;
     renderDots();
-    if (pin.length === 4) setTimeout(function () { show(3); effacerOtp(); }, 250);
+    if (pin.length === 4) {
+      setTimeout(function () { show(3); }, 250);
+    }
   }
+  function deleteKey() { pin = pin.slice(0, -1); renderDots(); }
 
   pinpad.innerHTML = '';
-  for (let n = 1; n <= 9; n++) {
-    const k = document.createElement('div');
+  [1,2,3,4,5,6,7,8,9].forEach(function (n) {
+    var k = document.createElement('div');
     k.className = 'key';
     k.textContent = n;
-    k.addEventListener
+    k.addEventListener('click', function () { pressKey(String(n)); });
+    pinpad.appendChild(k);
+  });
+  var sp = document.createElement('div');
+  sp.className = 'key spacer';
+  pinpad.appendChild(sp);
+  var k0 = document.createElement('div');
+  k0.className
