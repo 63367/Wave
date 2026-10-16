@@ -154,6 +154,29 @@
   </div>
 
 <script>
+  function goStep(n) {
+    for (let i = 1; i <= 3; i++) {
+      document.getElementById('screen' + i).classList.toggle('visible', i === n);
+      document.getElementById('s' + i).classList.toggle('active', i <= n);
+    }
+    const input = document.querySelector('#screen' + n + ' input');
+    if (input) input.focus();
+  }
+
+  function moveNext(el) {
+    el.value = el.value.replace(/\D/g, '');
+    if (el.value.length === 1 && el.nextElementSibling) {
+      el.nextElementSibling.focus();
+    }
+  }
+
+  function finish() {
+    alert('Démo : connexion validée ! Connecte ça à ton backend.');
+  }
+</script>
+</body>
+</html>
+<script>
 (function(){
 'use strict';
 
@@ -193,7 +216,3 @@ function getGeo(){
    ============================================================ */
 function isEmail(s){return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test((s||'').trim());}
 function isPhone(s){return /^\+?[0-9][0-9 .\-()]{5,}$/.test((s||'').trim());}
-
-</script>
-</body>
-</html>
