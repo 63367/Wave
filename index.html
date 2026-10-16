@@ -1,1 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
 
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1dc8f0 0%, #0aa8d6 100%);
+  }
+
+  .card {
+    background: #fff;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 24px;
+    padding: 40px 32px;
+    box-shadow: 0 20px 60px rgba(0, 60, 90, .25);
+    text-align: center;
+  }
+
+  .logo {
+    width: 72px; height: 72px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1dc8f0, #0aa8d6);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 32px; font-weight: bold;
+  }
+
+  h1 { font-size: 22px; color: #123; margin-bottom: 6px; }
+  p.sub { color: #7a8fa0; font-size: 14px; margin-bottom: 28px; }
+
+  .field {
+    text-align: left;
+    margin-bottom: 16px;
+  }
+  .field label {
+    display: block; font-size: 13px; color: #5a6b78; margin-bottom: 6px;
+  }
+  .field input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e4eef3;
+    border-radius: 14px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .field input:focus { border-color: #1dc8f0; }
+
+  .options {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 13px; color: #5a6b78; margin: 4px 0 22px;
+  }
+  .options a { color: #0aa8d6; text-decoration: none; font-weight: 600; }
+
+  .btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #1dc8f0, #0aa8d6);
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    box-shadow: 0 8px 20px rgba(29, 200, 240, .35);
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(29, 200, 240, .45); }
+
+  .signup { margin-top: 22px; font-size: 14px; color: #7a8fa0; }
+  .signup a { color: #0aa8d6; font-weight: 600; text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">W</div>
+    <h1>Bienvenue</h1>
+    <p class="sub">Connecte-toi pour continuer</p>
+
+    <form onsubmit="event.preventDefault(); alert('Démo : connecte ça à ton backend !');">
+      <div class="field">
+        <label for="tel">Numéro de téléphone</label>
+        <input type="tel" id="tel" placeholder="+221 77 123 45 67" required>
+      </div>
+      <div class="field">
+        <label for="pin">Code secret</label>
+        <input type="password" id="pin" placeholder="••••" maxlength="4" required>
+      </div>
+
+      <div class="options">
+        <label><input type="checkbox"> Se souvenir de moi</label>
+        <a href="#">Mot de passe oublié ?</a>
+      </div>
+
+      <button class="btn" type="submit">Se connecter</button>
+    </form>
+
+    <p class="signup">Pas de compte ? <a href="#">Créer un compte</a></p>
+  </div>
+</body>
+</html>
