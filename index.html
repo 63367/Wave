@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, 'Segoe UI', sans-serif; }
+  body {
+    background: linear-gradient(160deg, #1a9cf0 0%, #4facfe 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .card {
+    background: #fff;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+  .logo {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    background: #1a9cf0;
+    color: #fff;
+    font-size: 34px; font-weight: bold;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 15px;
+  }
+  h1 { color: #1a3a5c; font-size: 22px; margin-bottom: 5px; }
+  p.sous { color: #7a8ba0; font-size: 14px; margin-bottom: 30px; }
+  .champ {
+    text-align: left;
+    margin-bottom: 18px;
+  }
+  label { display: block; font-size: 13px; color: #1a3a5c; margin-bottom: 6px; font-weight: 600; }
+  input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e1e8f0;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.2s;
+  }
+  input:focus { border-color: #1a9cf0; }
+  button {
+    width: 100%;
+    padding: 15px;
+    background: #1a9cf0;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s;
+  }
+  button:hover { background: #1478b8; }
+  .lien { margin-top: 20px; font-size: 13px; color: #1a9cf0; text-decoration: none; display: inline-block; }
+  #message { margin-top: 15px; font-size: 14px; font-weight: bold; min-height: 20px; }
+  .ok { color: #16a34a; }
+  .ko { color: #dc2626; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">W</div>
+  <h1>Connexion</h1>
+  <p class="sous">Entrez vos informations pour continuer</p>
+
+  <form onsubmit="return verifier(event)">
+    <div class="champ">
+      <label>Numéro de téléphone</label>
+      <input type="tel" id="tel" placeholder="+225 07 00 00 00 00" required>
+    </div>
+    <div class="champ">
+      <label>Code PIN</label>
+      <input type="password" id="pin" placeholder="••••" maxlength="4" inputmode="numeric" required>
+    </div>
+    <button type="submit">Se connecter</button>
+  </form>
+
+  <div id="message"></div>
+  <a class="lien" href="#">Mot de passe oublié ?</a>
+</div>
+
+<script>
+// Démonstration uniquement : aucune donnée n'est envoyée nulle part
+function verifier(e) {
+  e.preventDefault();
+  const msg = document.getElementById('message');
+  const tel = document.getElementById('tel').value.trim();
+  const pin = document.getElementById('pin').value;
+
+  if (tel.length >= 8 && pin.length === 4) {
+    msg.textContent = "✅ Formulaire valide (démo : rien n'est envoyé)";
+    msg.className = "ok";
+  } else {
+    msg.textContent = "❌ Vérifiez le numéro (8+ chiffres) et le PIN (4 chiffres)";
+    msg.className = "ko";
+  }
+  return false;
+}
+</script>
+</body>
+</html>
